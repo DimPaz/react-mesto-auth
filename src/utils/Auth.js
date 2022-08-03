@@ -9,6 +9,13 @@ class Auth {
     };
   }
 
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject("Возникла ошибка");
+  }
+
   // запрос на регистрацию
   register(email, password) {
     return fetch(`${this._url}/signup`, {
@@ -17,13 +24,7 @@ class Auth {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .catch((err) => console.log(err));
+    }).then(this._checkResponse);
   }
 
   // запрос на авторизацию
@@ -37,11 +38,7 @@ class Auth {
         email,
         password,
       }),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => console.log(err));
+    }).then(this._checkResponse);
   }
 
   // проверка токена
@@ -52,11 +49,7 @@ class Auth {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => console.log(err));
+    }).then(this._checkResponse);
   }
 }
 

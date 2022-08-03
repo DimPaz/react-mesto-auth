@@ -236,27 +236,15 @@ function App() {
           console.log("авторизация");
         }
       })
-      .catch(console.log("ошибка"));
+      .catch(() => {
+        setNotify({
+          infoImg: infoImgNo,
+          infoText: "Что-то пошло не так! Попробуйте ещё раз.",
+        });
+        handleInfoTooltipClick();
+      });
   }
 
-  // function handleLogin({ email, pass }) {
-  //   auth
-  //     .authorize(email, pass)
-  //     .then((data) => {
-  //       if (data.token) {
-  //         localStorage.setItem("token", data.token);
-  //         setLoggedIn(true);
-  //         history.push("/");
-  //       } else {
-  //         setNotify({
-  //           infoImg: infoImgNo,
-  //           infoText: "Что-то пошло не так! Попробуйте ещё раз.",
-  //         });
-  //         handleInfoTooltipClick();
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
   // проверка токена
   function tokenCheck(token) {
     // const token = localStorage.getItem("token");
