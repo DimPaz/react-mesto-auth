@@ -49,17 +49,21 @@ function App() {
     isInfoTooltipPopupOpen;
 
   useEffect(() => {
-    tokenCheck();
-    api
-      .getAllData()
-      .then(([data, user]) => {
-        setCurrentUser(user);
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    const token = localStorage.getItem("token");
+    if (token) {
+      tokenCheck(token);
+      // if(loggedIn){
+      api
+        .getAllData()
+        .then(([data, user]) => {
+          setCurrentUser(user);
+          setCards(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
 
   //закрытие попапов на ESC
   useEffect(() => {
@@ -229,20 +233,33 @@ function App() {
           localStorage.setItem("token", data.token);
           setLoggedIn(true);
           history.push("/");
-        } else {
-          setNotify({
-            infoImg: infoImgNo,
-            infoText: "Что-то пошло не так! Попробуйте ещё раз.",
-          });
-          handleInfoTooltipClick();
+          console.log("авторизация");
         }
       })
-      .catch((err) => console.log(err));
+      .catch(console.log("ошибка"));
   }
 
+  // function handleLogin({ email, pass }) {
+  //   auth
+  //     .authorize(email, pass)
+  //     .then((data) => {
+  //       if (data.token) {
+  //         localStorage.setItem("token", data.token);
+  //         setLoggedIn(true);
+  //         history.push("/");
+  //       } else {
+  //         setNotify({
+  //           infoImg: infoImgNo,
+  //           infoText: "Что-то пошло не так! Попробуйте ещё раз.",
+  //         });
+  //         handleInfoTooltipClick();
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
   // проверка токена
-  function tokenCheck() {
-    const token = localStorage.getItem("token");
+  function tokenCheck(token) {
+    // const token = localStorage.getItem("token");
     if (token) {
       auth
         .getContent(token)
@@ -264,7 +281,6 @@ function App() {
 
   // выход из системы
   function handleSignOut() {
-    console.log("qwe");
     localStorage.removeItem("token");
     history.push("/sign-in");
   }
