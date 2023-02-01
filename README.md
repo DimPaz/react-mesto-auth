@@ -30,4 +30,4 @@
 2. Установить зависимости: npm install
 3. Запустить проект: npm run start
 
-[Ссылка на GitHub Pages](https://dimpaz.github.io/react-mesto-auth/)
+[Ссылка на GitHub Pages](https://dimpaz.github.io/mesto/)
